@@ -19,7 +19,7 @@ const ChatContextProvider = ({ children }) => {
 
     const sendChatData = async (chatData) => {
         try {
-            const response = await fetch('http://localhost:4000/api/v1/chats/new', {
+            const response = await fetch(`${API_URL}/api/v1/chats/new`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

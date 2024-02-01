@@ -6,6 +6,7 @@ import { Context } from './Context/Context.jsx';
 import { Welcome, Home } from './Layouts';
 import { Login, Signup } from './pages';
 import { Toaster } from 'react-hot-toast';
+import { API_URL } from './main.jsx';
 
 const ProtectedRoute = ({ Comps }) => {
   const { isAuthenticated } = useContext(Context);
@@ -21,7 +22,7 @@ const App = () => {
     if (!isAuthenticated) {
       const GetUser = async () => {
         try {
-          const { data } = await axios.get('http://localhost:4000/api/v1/users/profile', {
+          const { data } = await axios.get(`${API_URL}/api/v1/users/profile`, {
             withCredentials: true,
           });
 
