@@ -3,7 +3,7 @@ import { useContext, useState } from "react";
 import toast from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
 import { Context } from "../Context/Context.jsx";
-import { API_URL } from "../main.jsx";
+import { server } from "../main.jsx";
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -28,9 +28,7 @@ const Signup = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post(
-        `${API_URL}/api/v1/users/register`,
-        signupData,
+      const response = await axios.post(`${server}/users/register`, signupData,
         {
           headers: {
             'Content-Type': 'application/json',
@@ -44,12 +42,14 @@ const Signup = () => {
         signupData.rememberme = false;
         toast.success(response.data.message);
         setIsAuthenticated(true);
+        // Save authentication state to localStorage
+        localStorage.setItem("isAuthenticated", "true");
         navigate('/home');
       }
 
     } catch (error) {
       setIsAuthenticated(false);
-      toast.error("Server Error!");
+      toast.error(error.response.data.message || "Server Error!");
       navigate('/signup');
     }
   };

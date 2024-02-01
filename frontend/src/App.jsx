@@ -6,41 +6,40 @@ import { Context } from './Context/Context.jsx';
 import { Welcome, Home } from './Layouts';
 import { Login, Signup } from './pages';
 import { Toaster } from 'react-hot-toast';
-import { API_URL } from './main.jsx';
+import { server } from './main.jsx';
 
-const ProtectedRoute = ({ Comps }) => {
+const ProtectedRoute = ({ children }) => {
   const { isAuthenticated } = useContext(Context);
-  return (
-    isAuthenticated ? <Comps /> : <Navigate to={"/login"} />
-  )
-}
+
+  if (!isAuthenticated) {
+    return <Navigate to="/login" />;
+  }
+  return <>{children}</>;
+};
 
 const App = () => {
-  const { isAuthenticated, setIsAuthenticated, setUser } = useContext(Context);
+  const { setIsAuthenticated, setUser } = useContext(Context);
 
   useEffect(() => {
-    if (!isAuthenticated) {
-      const GetUser = async () => {
-        try {
-          const { data } = await axios.get(`${API_URL}/api/v1/users/profile`, {
-            withCredentials: true,
-          });
+    const checkUserAuthentication = async () => {
+      try {
+        const response = await axios.get(`${server}/users/profile`, {
+          withCredentials: true,
+        });
 
-          if (data) {
-            setIsAuthenticated(true);
-            setUser(data.user);
-            console.log(data.user)
-          }
-        } catch (error) {
-          setUser({});
-          console.log(error);
-          setIsAuthenticated(false);
+        if (response.status === 200) {
+          setIsAuthenticated(true);
+          setUser(response.data.user);
         }
-      };
+      } catch (error) {
+        setUser({});
+        setIsAuthenticated(false);
+      }
+    };
 
-      GetUser();
-    }
-  }, [isAuthenticated]);
+    // Check user authentication when the app starts
+    checkUserAuthentication();
+  }, [setIsAuthenticated, setUser]);
   return (
     <Router>
       <Routes>

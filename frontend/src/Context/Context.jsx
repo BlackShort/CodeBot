@@ -1,5 +1,6 @@
-import React, { createContext, useState } from 'react';
+import { createContext, useEffect, useState } from 'react';
 import sendMsgToApi from './fetchfromApi';
+import toast from 'react-hot-toast';
 
 const Context = createContext();
 
@@ -14,8 +15,15 @@ const ChatContextProvider = ({ children }) => {
     const [input, setInput] = useState('');
     const [chats, setChats] = useState([]);
     const [activeChatIndex, setActiveChatIndex] = useState(null);
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [user, setUser] = useState({});
+
+    const [isAuthenticated, setIsAuthenticated] = useState(() => {
+        return localStorage.getItem("isAuthenticated") === "true";
+    });
+
+    useEffect(() => {
+        localStorage.setItem("isAuthenticated", isAuthenticated);
+    }, [isAuthenticated]);
 
     const sendChatData = async (chatData) => {
         try {

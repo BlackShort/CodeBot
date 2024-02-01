@@ -1,9 +1,9 @@
 import axios from 'axios';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { Context } from '../Context/Context.jsx';
-import { API_URL } from '../main.jsx';
+import { server } from '../main.jsx';
 
 const Login = () => {
 
@@ -24,10 +24,19 @@ const Login = () => {
     }));
   };
 
+  useEffect(() => {
+    // Check if the user is already authenticated from localStorage
+    const storedAuthState = localStorage.getItem("isAuthenticated");
+    if (storedAuthState === "true") {
+      setIsAuthenticated(true);
+      navigate('/home');
+    }
+  }, [setIsAuthenticated, navigate]);
+
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(`${API_URL}/api/v1/users/login`, loginData, {
+      const response = await axios.post(`${server}/users/login`, loginData, {
         headers: {
           'Content-Type': 'application/json',
         },
@@ -39,6 +48,8 @@ const Login = () => {
         loginData.rememberme = false;
         setIsAuthenticated(true);
         toast.success(response.data.message);
+        // Save authentication state to localStorage
+        localStorage.setItem("isAuthenticated", "true");
         navigate('/home');
       }
     } catch (error) {
@@ -50,7 +61,7 @@ const Login = () => {
 
   return (
     <div className="Home_Container">
-        <Link to={'/'} className='home'>ThinkCraft</Link>
+      <Link to={'/'} className='home'>ThinkCraft</Link>
       <div className="wrapper">
         <div className="form-box login">
           <h2>Login</h2>
