@@ -15,9 +15,10 @@ config({
 // Using Middleware
 app.use(express.json());
 app.use(cookieParser());
+
 // Adjusted CORS setup
 app.use("*", cors({
-    origin: "https://chat-codebot.netlify.app/",
+    origin: "https://chat-codebot.netlify.app",
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
 }));

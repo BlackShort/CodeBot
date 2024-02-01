@@ -1,6 +1,5 @@
 import { createContext, useEffect, useState } from 'react';
 import sendMsgToApi from './fetchfromApi';
-import toast from 'react-hot-toast';
 
 const Context = createContext();
 

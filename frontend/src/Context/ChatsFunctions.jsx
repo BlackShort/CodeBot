@@ -1,10 +1,10 @@
 import axios from "axios";
 import toast from 'react-hot-toast';
-import { API_URL } from "../main.jsx";
+import { server } from "../main.jsx";
 
 export const fetchChats = async () => {
     try {
-        const response = await axios.get(`${API_URL}/api/v1/notes/all`, {
+        const response = await axios.get(`${server}/notes/all`, {
             withCredentials: true,
         });
 
@@ -19,7 +19,7 @@ export const fetchChats = async () => {
 
 export const getChats = async (noteid) => {
     try {
-        const response = await axios.get(`${API_URL}/api/v1/notes/${noteid}`, {
+        const response = await axios.get(`${server}/notes/${noteid}`, {
             withCredentials: true,
         });
 
@@ -33,7 +33,7 @@ export const getChats = async (noteid) => {
 
 export const Logout = async (setIsAuthenticated) => {
     try {
-        const response = await axios.get(`${API_URL}/api/v1/users/logout`, {
+        const response = await axios.get(`${server}/users/logout`, {
             headers: {
                 "Content-Type": 'application/json',
             },
@@ -52,7 +52,7 @@ export const Logout = async (setIsAuthenticated) => {
 
 export const addNotes = async (noteInfo) => {
     try {
-        const response = await axios.post(`${API_URL}/api/v1/notes/new`, noteInfo, {
+        const response = await axios.post(`${server}/notes/new`, noteInfo, {
             headers: {
                 "Content-Type": 'application/json',
             },
@@ -69,7 +69,7 @@ export const addNotes = async (noteInfo) => {
 
 export const deleteNotes = async (noteid) => {
     try {
-        const response = await axios.delete(`${API_URL}/api/v1/notes/${noteid}`, {
+        const response = await axios.delete(`${server}/notes/${noteid}`, {
             headers: {
                 "Content-Type": 'application/json',
             },
