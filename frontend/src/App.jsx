@@ -40,11 +40,12 @@ const App = () => {
     // Check user authentication when the app starts
     checkUserAuthentication();
   }, [setIsAuthenticated, setUser]);
+  
   return (
     <Router>
       <Routes>
         <Route path='/' element={<Welcome />} />
-        <Route path='/home' element={<ProtectedRoute Comps={Home} />} />
+        <Route path='/home' element={<ProtectedRoute><Home /></ProtectedRoute>} />
         <Route path='/login' element={<Login />} />
         <Route path='/signup' element={<Signup />} />
       </Routes>
