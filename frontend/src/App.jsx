@@ -42,7 +42,7 @@ const App = () => {
   }, [setIsAuthenticated, setUser]);
   
   return (
-    <Router>
+    <BrowserRouter>
       <Routes>
         <Route path='/' element={<Welcome />} />
         <Route path='/home' element={<ProtectedRoute><Home /></ProtectedRoute>} />
@@ -50,7 +50,7 @@ const App = () => {
         <Route path='/signup' element={<Signup />} />
       </Routes>
       <Toaster />
-    </Router>
+    </BrowserRouter>
   )
 }
 
